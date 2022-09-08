@@ -1,8 +1,10 @@
 import axios from "axios";
 import { URL } from "@env";
 
-export function storeExpense(expenseData) {
-  axios.post(URL + "expenses.json", expenseData);
+export async function storeExpense(expenseData) {
+  const response = await axios.post(URL + "expenses.json", expenseData);
+  const id = response.data.name;
+  return id;
 }
 
 export async function fetchExpenses() {
@@ -20,4 +22,12 @@ export async function fetchExpenses() {
     expenses.push(expenseObject);
   }
   return expenses;
+}
+
+export function updateExpense(id, expenseData) {
+  return axios.put(URL + `/expenses/${id}.json`, expenseData);
+}
+
+export function deleteExpense(id) {
+  return axios.delete(URL + `/expenses/${id}.json`);
 }
